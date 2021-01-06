@@ -2,14 +2,22 @@ import React, { useState } from 'react';
 // import {Redirect} from 'react-router-dom';
 
 export const Home = (props) => {
+
+  console.log(props);
+
+  const socket = props.socket;
+
   const [name, setName] = useState('');
 
   const submit = (e) => {
     e.preventDefault();
 
-    if (name === '') {
-      return;
-    }
+    // if (name === '') {
+    //   return;
+    // }
+
+    socket.emit('join', name ? name : 'Anon');
+
 
     props.history.push({
       pathname: '/chat',

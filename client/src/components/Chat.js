@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Message } from './Message';
-import io from 'socket.io-client';
-
-const URL = 'http://localhost:3001';
-
-const socket = io.connect(URL);
 
 export const Chat = (props) => {
+
+  const socket = props.socket;
 
   const {location: {state: {name}}} = props;
 
@@ -14,14 +11,18 @@ export const Chat = (props) => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    socket.on('connection', {name});
-  });
-
-  useEffect(() => {
     socket.on('message', ({name, message}) => {
       setMessages([...messages, {name, message}]);
     });
-  }, [messages]);
+  });
+
+  const messagesEndRef = useRef(null);
+
+  const scrollToBotom = () => {
+    messagesEndRef.current.scrollIntoView({behavior: "smooth"});
+  }
+
+  useEffect(scrollToBotom, [messages]);
 
   const submit = e => {
     e.preventDefault();
@@ -38,7 +39,7 @@ export const Chat = (props) => {
   return (
     <div className="chat container flex mx-auto h-screen">
       <div className="chat-container m-auto h-screen w-2/4">
-        <div className="chat-messages h-2/4 bg-green-200">
+        <div className="chat-messages h-2/4 bg-green-200 overflow-y-scroll" ref={messagesEndRef}>
           {messages.map(({name, message}, index) => {
             return <Message name={name} message={message} username={name} key={index} />
           })}
