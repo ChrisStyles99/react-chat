@@ -1,9 +1,6 @@
 const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
-const cors = require('cors');
-const {userJoin, userLeaves} = require('./users');
-
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
@@ -11,11 +8,24 @@ const io = socketio(server, {
     origin: 'http://localhost:3000'
   }
 });
+const cors = require('cors');
+const {userJoin, userLeaves} = require('./users');
+const cookieParser = require('cookie-parser');
+const sequelize = require('./database/db');
+require('./database/associations');
+const users = require('./routes/users');
+
+if(process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true
 }));
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use(cookieParser());
 
 const PORT = process.env.PORT || 3001;
 
@@ -29,7 +39,7 @@ io.on('connection', (socket) => {
     socket.emit('message', {name: 'ChatBot', message: `Welcome, ${user.username}`});
 
     socket.broadcast.emit('message', {name: 'ChatBot', message: `User ${user.username} joined`});
-  }); 
+  });
 
   socket.on('message', ({name, message}) => {
     // io.emit('message', {name, message});
@@ -47,10 +57,14 @@ io.on('connection', (socket) => {
   });
 });
 
-// app.get('/', (req, res) => {
-//   res.status(200).send({res: 'I am alive'});
-// });
+app.use('/api/users', users);
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+
+  sequelize.sync({force: false}).then(() => {
+    console.log('Db connected');
+  }).catch(err => {
+    console.log(err);
+  });
 });
