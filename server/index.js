@@ -32,7 +32,9 @@ io.on('connection', (socket) => {
   }); 
 
   socket.on('message', ({name, message}) => {
-    io.emit('message', {name, message});
+    // io.emit('message', {name, message});
+    socket.emit('message', {name: 'You', message});
+    socket.broadcast.emit('message', {name, message});
   });
 
   socket.on('disconnect', () => {
@@ -45,9 +47,9 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/', (req, res) => {
-  res.status(200).send({res: 'I am alive'});
-});
+// app.get('/', (req, res) => {
+//   res.status(200).send({res: 'I am alive'});
+// });
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

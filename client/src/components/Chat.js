@@ -42,9 +42,9 @@ export const Chat = (props) => {
   }
 
   return (
-    <div className="chat container flex mx-auto h-screen">
-      <div className="chat-container m-auto h-screen w-2/4">
-        <div className="chat-messages h-2/4 bg-green-200 overflow-y-scroll">
+    <div className="chat container flex mx-auto">
+      <div className="chat-container m-auto h-screen w-2/4 my-5">
+        <div className="chat-messages h-2/4 bg-gray-200 overflow-y-scroll">
           {messages.map(({name, message}, index) => {
             return <Message name={name} message={message} username={name} key={index} />
           })}
@@ -52,8 +52,8 @@ export const Chat = (props) => {
         </div>
         <div className="message-form">
           <form onSubmit={submit}>
-            <input type="text" className="w-3/4 p-2 bg-green-300" placeholder="Enter your message" value={message} onChange={e => setMessage(e.target.value)}/>
-            <button type="submit" className="bg-green-600 w-1/4 rounded p-2 text-white text-lg">Send</button>
+            <input type="text" className="w-3/4 p-2 bg-gray-300" placeholder="Enter your message" value={message} onChange={e => setMessage(e.target.value)}/>
+            <button type="submit" className="bg-gray-900 w-1/4 rounded p-2 text-white text-lg">Send</button>
           </form>
         </div>
       </div>
