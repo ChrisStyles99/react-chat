@@ -6,10 +6,24 @@ import io from 'socket.io-client';
 import { Navbar } from './components/Navbar';
 import { Register } from './components/Register';
 import { Login } from './components/Login';
+// import { Component } from 'react';
 
 const URL = 'http://localhost:3001';
 
 const socket = io.connect(URL);
+
+// const ProtectedRoute = ({component: Component, ...rest}) => {
+//   return (
+//     <Route {...rest} render={
+//       (props) => {
+//         if(token === null) {
+          
+//         }
+//       }
+//     }>
+//     </Route>
+//   )
+// }
 
 function App() {
   return (

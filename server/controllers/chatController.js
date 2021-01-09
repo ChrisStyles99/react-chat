@@ -2,6 +2,7 @@ const User = require("../database/models/User");
 const Chat = require("../database/models/Chat");
 const Message = require("../database/models/Message");
 const ChatUser = require('../database/models/ChatUser');
+const { Op } = require('sequelize');
 
 const chatController = {}
 
@@ -15,7 +16,10 @@ chatController.userChats = async(req, res) => {
         include: {
           model: User,
           attributes: ['id', 'name', 'username'],
-          through: {attributes: []}
+          through: {attributes: []},
+          where: {
+            [Op.not]: [{id: req.user}]
+          }
         }
       },
       attributes: ['id', 'name', 'username', 'email', 'createdAt', 'updatedAt']
