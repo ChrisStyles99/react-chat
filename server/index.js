@@ -5,7 +5,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: 'http://localhost:3000'
+    origin: 'http://localhost:3000',
+    credentiales: true
   }
 });
 const cors = require('cors');
@@ -19,6 +20,8 @@ const chats = require('./routes/chats');
 if(process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
+
+const verifyToken = require('./middlewares/verifyToken');
 
 app.use(cors({
   origin: 'http://localhost:3000',
@@ -59,7 +62,7 @@ io.on('connection', (socket) => {
 });
 
 app.use('/api/users', users);
-app.use('/api/chats', chats);
+app.use('/api/chats', verifyToken, chats);
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
