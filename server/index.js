@@ -14,6 +14,7 @@ const cookieParser = require('cookie-parser');
 const sequelize = require('./database/db');
 require('./database/associations');
 const users = require('./routes/users');
+const chats = require('./routes/chats');
 
 if(process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -58,6 +59,7 @@ io.on('connection', (socket) => {
 });
 
 app.use('/api/users', users);
+app.use('/api/chats', chats);
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
