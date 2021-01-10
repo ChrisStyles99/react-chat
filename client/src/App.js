@@ -7,9 +7,9 @@ import { Navbar } from './components/Navbar';
 import { Register } from './components/Register';
 import { Login } from './components/Login';
 import {useSelector} from 'react-redux';
+import { Component } from 'react';
 
 const URL = 'http://localhost:3001';
-
 const socket = io.connect(URL);
 
 const ProtectedRoute = ({component: Component, ...rest}) => {
@@ -30,6 +30,23 @@ const ProtectedRoute = ({component: Component, ...rest}) => {
   )
 }
 
+const GuestRoute = ({component: Component, ...rest}) => {
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
+
+  return (
+    <Route {...rest} render={
+      (props) => {
+        if(isLoggedIn) {
+          return <Redirect to={{pathname: '/'}} />
+        } else {
+          return <Component {...props} />
+        }
+      }
+    }>
+    </Route>
+  )
+}
+
 function App() {
   return (
     <div className="App bg-gray-600">
@@ -38,8 +55,8 @@ function App() {
         <Switch>
           <ProtectedRoute exact path="/" component={(props) => <Home {...props} socket={socket} />} />
           <ProtectedRoute exact path="/chat" component={(props) => <Chat {...props} socket={socket} />} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
+          <GuestRoute exact path="/register" component={Register} />
+          <GuestRoute exact path="/login" component={Login} />
         </Switch>
       </Router>
     </div>

@@ -1,5 +1,5 @@
 const initialState = {
-  isLoggedIn: window.document.cookie.includes('token=') || false,
+  isLoggedIn: window.document.cookie.includes('isLoggedIn=') || false,
   user: {},
   loginError: null,
   registerError: null,
@@ -27,6 +27,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         registerError: action.payload
+      }
+    case 'LOGOUT': 
+      return {
+        ...state,
+        isLoggedIn: false,
+        user: {},
+        chatMessages: []
       }
     case 'GET_USER_CHATS':
       return {

@@ -44,6 +44,14 @@ export const register = user => {
   }
 }
 
+export const logout = async(dispatch) => {
+  await axios.delete(`${baseURL}/users/logout`);
+
+  dispatch({
+    type: 'LOGOUT'
+  });
+}
+
 export const getUserChats = async(dispatch) => {
   const res = await axios.get(`${baseURL}/chats/user-chats`);
 
