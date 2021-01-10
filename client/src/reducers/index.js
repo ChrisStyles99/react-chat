@@ -1,6 +1,8 @@
 const initialState = {
   isLoggedIn: window.document.cookie.includes('isLoggedIn=') || false,
-  user: {},
+  user: {
+    chats: {}
+  },
   loginError: null,
   registerError: null,
   chatMessages: []
