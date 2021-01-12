@@ -35,30 +35,29 @@ const PORT = process.env.PORT || 3001;
 
 // Run when client connects
 io.on('connection', (socket) => {
-  socket.on('join', username => {
-    const user = userJoin(socket.id, username);
+  // socket.on('join', username => {
+  //   const user = userJoin(socket.id, username);
 
-    console.log(user);
+  //   console.log(user);
 
-    socket.emit('message', {name: 'ChatBot', message: `Welcome, ${user.username}`});
+  //   socket.emit('message', {name: 'ChatBot', message: `Welcome, ${user.username}`});
 
-    socket.broadcast.emit('message', {name: 'ChatBot', message: `User ${user.username} joined`});
-  });
+  //   socket.broadcast.emit('message', {name: 'ChatBot', message: `User ${user.username} joined`});
+  // });
 
   socket.on('message', ({name, message}) => {
-    // io.emit('message', {name, message});
-    socket.emit('message', {name: 'You', message});
-    socket.broadcast.emit('message', {name, message});
+    io.emit('message', {name, message});
+    // socket.broadcast.emit('message', {name, message});
   });
 
-  socket.on('disconnect', () => {
+  // socket.on('disconnect', () => {
 
-    const user = userLeaves(socket.id);
+  //   const user = userLeaves(socket.id);
 
-    if(user) {
-      io.emit('message', {name: 'ChatBot', message: `User ${user.username} has left the chat`});
-    }
-  });
+  //   if(user) {
+  //     io.emit('message', {name: 'ChatBot', message: `User ${user.username} has left the chat`});
+  //   }
+  // });
 });
 
 app.use('/api/users', users);

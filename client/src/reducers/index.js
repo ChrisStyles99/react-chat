@@ -5,7 +5,8 @@ const initialState = {
   },
   loginError: null,
   registerError: null,
-  chatMessages: []
+  chatMessages: [],
+  newMessageError: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -46,6 +47,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         chatMessages: action.payload
+      }
+    case 'NEW_MESSAGE_ERROR':
+      return {
+        ...state,
+        newMessageError: action.payload
+      }
+    case 'NEW_MESSAGE':
+      return {
+        ...state,
+        chatMessages: [...state.chatMessages, {id: action.payload.id, content: action.payload.content, createdAt: action.payload.createdAt, user: {id: state.user.id, name: state.user.name, username: state.user.username}}]
       }
     default: 
       return state

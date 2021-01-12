@@ -71,3 +71,32 @@ export const getChatMessages = id => {
     });
   }
 }
+
+export const createMessage = (content, id) => {
+  return async(dispatch) => {
+    const res = await axios.post(`${baseURL}/chats/new-message/${id}`, {content});
+
+    if(res.data.error === true) {
+      return dispatch({
+        type: 'NEW_MESSAGE_ERROR',
+        payload: res.data.msg
+      });
+    }
+
+    dispatch({
+      type: 'NEW_MESSAGE',
+      payload: res.data.newMessage
+    });
+
+    return res.data.newMessage;
+  }
+}
+
+export const friendMessage = ({name, content}) => {
+  return dispatch => {
+    dispatch({
+      type: 'NEW_FRIEND_MESSAGE',
+      payload: {name, content}
+    })
+  }
+}

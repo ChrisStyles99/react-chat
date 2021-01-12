@@ -25,8 +25,8 @@ chatController.userChats = async (req, res) => {
       attributes: ['id', 'name', 'username', 'email', 'createdAt', 'updatedAt'],
     });
     res.json(chats);
-  } catch (error) {
-    res.json(error);
+  } catch (err) {
+    res.json({ error: false, msg: err });
   }
 };
 
@@ -45,8 +45,8 @@ chatController.chatMessages = async (req, res) => {
       order: [['createdAt', 'ASC']],
     });
     res.json(messages);
-  } catch (error) {
-    res.json(error);
+  } catch (err) {
+    res.json({ error: true, msg: err });
   }
 };
 
@@ -86,9 +86,40 @@ chatController.createChat = async (req, res) => {
       });
       res.json({ error: false, msg: 'Created chat', chat });
     }
-  } catch (error) {
-    res.json(error);
+  } catch (err) {
+    res.json({ error: true, msg: err });
   }
 };
+
+chatController.createMessage = async (req, res) => {
+  try {
+    const chatId = parseInt(req.params.chatId);
+    console.log(req.body);
+    const { content } = req.body;
+    const newMessage = await Message.create({
+      content,
+      user_id: req.user,
+      chat_id: chatId,
+    });
+    res.json({ error: false, newMessage });
+  } catch (err) {
+    res.json({ error: true, msg: err.errors[0].message });
+  }
+};
+
+chatController.updateChatName = async(req, res) => {
+  try {
+    const chatId = parseInt(req.params.chatId);
+
+    const chat = await Chat.update({name: req.body.name}, {
+      where: {
+        id: chatId
+      }
+    });
+    res.json({error: false, msg: 'Updated chat name'});
+  } catch (err) {
+    res.json({error: true, msg: err});
+  }
+}
 
 module.exports = chatController;

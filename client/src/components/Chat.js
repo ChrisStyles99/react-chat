@@ -1,43 +1,44 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Message } from './Message';
-import {getChatMessages, getUserChats} from '../actions'
+import {getChatMessages, getUserChats, createMessage} from '../actions'
 
 export const Chat = (props) => {
 
-  // const socket = props.socket;
+  const socket = props.socket;
 
   const dispatch = useDispatch();
   const userProfile = useSelector(state => state.user);
   const chatMessages = useSelector(state => state.chatMessages);
+  const newMessageError = useSelector(state => state.newMessageError);
   const {id} = props.match.params;
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if(userProfile.length < 0) {
+    if(Object.keys(userProfile)[0] !== "id" ) {
       dispatch(getUserChats);
     }
     dispatch(getChatMessages(id));
   }, []);
 
-  // useEffect(() => {
-  //   socket.on('message', ({name, message}) => {
-  //     setMessages([...messages, {name, message}]);
-  //   });
-  //   console.log('Updated');
+  useEffect(() => {
+    socket.on('message', () => {
+      dispatch(getChatMessages(id));
+    });
+    console.log('Updated');
 
-  //   return () => {
-  //     socket.off('message');
-  //   }
-  // }, [messages]);
+    return () => {
+      socket.off('message');
+    }
+  }, [chatMessages]);
 
   const messagesEndRef = useRef(null);
 
-  // const scrollToBotom = () => {
-  //   messagesEndRef.current.scrollIntoView({behavior: "smooth"});
-  // }
+  const scrollToBotom = () => {
+    messagesEndRef.current.scrollIntoView({behavior: "smooth"});
+  }
 
-  // useEffect(scrollToBotom, [messages]);
+  useEffect(scrollToBotom, [chatMessages]);
 
   const submit = e => {
     e.preventDefault();
@@ -46,7 +47,9 @@ export const Chat = (props) => {
       return;
     }
 
-    // socket.emit('message', {name, message});
+    socket.emit('message', {name: userProfile.name, message});
+
+    dispatch(createMessage(message, id));
 
     setMessage('');
   }
@@ -54,6 +57,7 @@ export const Chat = (props) => {
   return (
     <div className="chat container flex mx-auto">
       <div className="chat-container m-auto h-screen w-2/4 my-5">
+        <p>{newMessageError}</p>
         <div className="chat-messages h-2/4 bg-gray-200 overflow-y-scroll">
           {chatMessages.length > 0 ? (
             chatMessages.map(chatMessage => {
