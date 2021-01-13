@@ -5,8 +5,10 @@ const initialState = {
   },
   loginError: null,
   registerError: null,
+  chatInfo: {},
   chatMessages: [],
-  newMessageError: null
+  newMessageError: null,
+  getChatInfoError: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -42,6 +44,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload
+      }
+    case 'GET_CHAT_ERROR':
+      return {
+        ...state,
+        getChatInfoError: action.payload
+      }
+    case 'GET_CHAT_INFO':
+      return {
+        ...state,
+        chatInfo: action.payload
       }
     case 'GET_CHAT_MESSAGES':
       return {

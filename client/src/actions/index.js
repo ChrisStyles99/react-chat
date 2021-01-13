@@ -61,6 +61,24 @@ export const getUserChats = async(dispatch) => {
   });
 }
 
+export const getChatInfo = id => {
+  return async(dispatch) => {
+    const res = await axios.get(`${baseURL}/chats/chat-info/${id}`);
+
+    if(res.data.error === true) {
+      dispatch({
+        type: 'GET_CHAT_ERROR',
+        payload: "Coulnd't get chat information :("
+      })
+    }
+
+    dispatch({
+      type: 'GET_CHAT_INFO',
+      payload: res.data.chatInfo
+    });
+  }
+}
+
 export const getChatMessages = id => {
   return async(dispatch) => {
     const res = await axios.get(`${baseURL}/chats/chat-messages/${id}`);
