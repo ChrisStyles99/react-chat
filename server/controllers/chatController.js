@@ -30,6 +30,17 @@ chatController.userChats = async (req, res) => {
   }
 };
 
+chatController.getChatInfo = async(req, res) => {
+  try {
+    const {id} = req.params
+    const chatInfo = await Chat.findByPk(id);
+
+    res.json({error: false, chatInfo});
+  } catch (error) {
+    res.json({error: true, msg: error});
+  }
+}
+
 chatController.chatMessages = async (req, res) => {
   try {
     const id = req.params.id;

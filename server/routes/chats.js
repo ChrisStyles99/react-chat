@@ -1,8 +1,10 @@
 const {Router} = require('express');
-const { userChats, chatMessages, createChat, createMessage, updateChatName } = require('../controllers/chatController');
+const { userChats, chatMessages, createChat, createMessage, updateChatName, getChatInfo } = require('../controllers/chatController');
 const router = Router();
 
 router.get('/user-chats', userChats);
+
+router.get('/chat-info/:id', getChatInfo);
 
 router.get('/chat-messages/:id', chatMessages);
 
