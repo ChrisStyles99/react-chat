@@ -10,7 +10,6 @@ const io = socketio(server, {
   }
 });
 const cors = require('cors');
-const {userJoin, userLeaves} = require('./users');
 const cookieParser = require('cookie-parser');
 const sequelize = require('./database/db');
 require('./database/associations');
@@ -35,29 +34,9 @@ const PORT = process.env.PORT || 3001;
 
 // Run when client connects
 io.on('connection', (socket) => {
-  // socket.on('join', username => {
-  //   const user = userJoin(socket.id, username);
-
-  //   console.log(user);
-
-  //   socket.emit('message', {name: 'ChatBot', message: `Welcome, ${user.username}`});
-
-  //   socket.broadcast.emit('message', {name: 'ChatBot', message: `User ${user.username} joined`});
-  // });
-
-  socket.on('message', ({name, message}) => {
-    io.emit('message', {name, message});
-    // socket.broadcast.emit('message', {name, message});
+  socket.on('message', ({id, content, createdAt, user}) => {
+    io.emit('message', {id, content, createdAt, user});
   });
-
-  // socket.on('disconnect', () => {
-
-  //   const user = userLeaves(socket.id);
-
-  //   if(user) {
-  //     io.emit('message', {name: 'ChatBot', message: `User ${user.username} has left the chat`});
-  //   }
-  // });
 });
 
 app.use('/api/users', users);

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Message } from './Message';
-import {getChatMessages, getUserChats, createMessage} from '../actions'
+import {getChatMessages, getUserChats, createMessage, friendMessage} from '../actions'
 
 export const Chat = (props) => {
 
@@ -22,10 +22,11 @@ export const Chat = (props) => {
   }, []);
 
   useEffect(() => {
-    socket.on('message', () => {
-      dispatch(getChatMessages(id));
+    socket.on('message', ({id, content, createdAt, user}) => {
+      if(user.id !== userProfile.id) {
+        dispatch(friendMessage({id, content, createdAt, user}));
+      }
     });
-    console.log('Updated');
 
     return () => {
       socket.off('message');
@@ -40,16 +41,16 @@ export const Chat = (props) => {
 
   useEffect(scrollToBotom, [chatMessages]);
 
-  const submit = e => {
+  const submit = async(e) => {
     e.preventDefault();
 
     if(message === '') {
       return;
     }
 
-    socket.emit('message', {name: userProfile.name, message});
+    const newMessage = await dispatch(createMessage(message, id));
 
-    dispatch(createMessage(message, id));
+    socket.emit('message', {id: newMessage.id, content: newMessage.content, createdAt: newMessage.createdAt, user: {id: userProfile.id, name: userProfile.name, username: userProfile.username}});
 
     setMessage('');
   }

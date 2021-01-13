@@ -58,6 +58,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         chatMessages: [...state.chatMessages, {id: action.payload.id, content: action.payload.content, createdAt: action.payload.createdAt, user: {id: state.user.id, name: state.user.name, username: state.user.username}}]
       }
+    case 'NEW_FRIEND_MESSAGE':
+      return {
+        ...state,
+        chatMessages: [...state.chatMessages, {id: action.payload.id, content: action.payload.content, createdAt: action.payload.createdAt, user: {id: action.payload.user.id, name: action.payload.user.name, username: action.payload.user.username}}]
+      }
     default: 
       return state
   }

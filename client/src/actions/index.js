@@ -92,11 +92,11 @@ export const createMessage = (content, id) => {
   }
 }
 
-export const friendMessage = ({name, content}) => {
+export const friendMessage = ({id, content, createdAt, user}) => {
   return dispatch => {
     dispatch({
       type: 'NEW_FRIEND_MESSAGE',
-      payload: {name, content}
+      payload: {id, content, createdAt, user}
     })
   }
 }
