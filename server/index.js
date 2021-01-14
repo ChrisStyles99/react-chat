@@ -15,6 +15,7 @@ const sequelize = require('./database/db');
 require('./database/associations');
 const users = require('./routes/users');
 const chats = require('./routes/chats');
+const {userJoin, getCurrentUser} = require('./users');
 
 if(process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -34,8 +35,16 @@ const PORT = process.env.PORT || 3001;
 
 // Run when client connects
 io.on('connection', (socket) => {
+  socket.on('joinRoom', room => {
+    const newUser = userJoin(socket.id, room);
+    socket.join(newUser.room);
+  });
+
   socket.on('message', ({id, content, createdAt, user}) => {
-    io.emit('message', {id, content, createdAt, user});
+
+    const userId = getCurrentUser(socket.id);
+
+    io.to(userId.room).emit('message', {id, content, createdAt, user});
   });
 });
 

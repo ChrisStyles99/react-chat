@@ -29,6 +29,7 @@ export const Chat = (props) => {
     }
     dispatch(getChatMessages(id));
     dispatch(getChatInfo(id));
+    socket.emit('joinRoom', id);
     // eslint-disable-next-line
   }, []);
 
