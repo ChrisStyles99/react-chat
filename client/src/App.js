@@ -7,6 +7,7 @@ import { Navbar } from './components/Navbar';
 import { Register } from './components/Register';
 import { Login } from './components/Login';
 import {useSelector} from 'react-redux';
+import { Profile } from './components/Profile';
 
 const URL = 'http://localhost:3001';
 const socket = io.connect(URL);
@@ -54,6 +55,7 @@ function App() {
         <Switch>
           <ProtectedRoute exact path="/" component={(props) => <Home {...props} socket={socket} />} />
           <ProtectedRoute exact path="/chat/:id" component={(props) => <Chat {...props} socket={socket} />} />
+          <ProtectedRoute exact path="/profile" component={Profile} />
           <GuestRoute exact path="/register" component={Register} />
           <GuestRoute exact path="/login" component={Login} />
         </Switch>

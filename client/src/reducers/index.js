@@ -8,7 +8,8 @@ const initialState = {
   chatInfo: {},
   chatMessages: [],
   newMessageError: null,
-  getChatInfoError: null
+  getChatInfoError: null,
+  changeNameError: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -74,6 +75,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         chatMessages: [...state.chatMessages, {id: action.payload.id, content: action.payload.content, createdAt: action.payload.createdAt, user: {id: action.payload.user.id, name: action.payload.user.name, username: action.payload.user.username}}]
+      }
+    case 'CHANGE_NAME_ERROR':
+      return {
+        ...state,
+        changeNameError: action.payload
+      }
+    case 'CHANGE_NAME':
+      return {
+        ...state,
+        chatInfo: {...state.chatInfo, name: action.payload}
       }
     default: 
       return state

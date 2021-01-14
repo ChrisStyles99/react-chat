@@ -118,3 +118,21 @@ export const friendMessage = ({id, content, createdAt, user}) => {
     })
   }
 }
+
+export const changeChatName = (id, name) => {
+  return async dispatch => {
+    const res = await axios.put(`${baseURL}/chats/change-chat-name/${id}`, {name});
+
+    if(res.data.error === true) {
+      return dispatch({
+        type: 'CHANGE_NAME_ERROR',
+        payload: 'Could not change name, sorry'
+      });
+    }
+
+    dispatch({
+      type: 'CHANGE_NAME',
+      payload: name
+    });
+  }
+}

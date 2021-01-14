@@ -18,6 +18,7 @@ export const Chat = (props) => {
   const chatInfo = useSelector((state) => state.chatInfo);
   const chatMessages = useSelector((state) => state.chatMessages);
   const newMessageError = useSelector((state) => state.newMessageError);
+  const changeNameError = useSelector(state => state.changeNameError);
   const { id } = props.match.params;
   const [message, setMessage] = useState('');
   const [popup, setPopup] = useState(false);
@@ -79,13 +80,14 @@ export const Chat = (props) => {
     <div className="chat container flex mx-auto">
       {popup && (
         <div>
-          <NameModal setTrigger={setPopup} />
+          <NameModal setTrigger={setPopup} id={id} />
           <div className="overlay bg-black bg-opacity-10 absolute w-full h-full inset-0"></div>
         </div>
       )}
       <div className="chat-container m-auto h-screen w-2/4 my-5">
         <div className="m-auto">
           <h1 className="text-4xl text-white text-center">{chatInfo.name}</h1>
+          <p className="text-xl text-red-400">{changeNameError}</p>
           <button
             onClick={() => setPopup(true)}
             className="my-2 p-2 bg-blue-500 rounded hover:bg-blue-700"
@@ -122,7 +124,7 @@ export const Chat = (props) => {
             />
             <button
               type="submit"
-              className="bg-gray-900 w-1/4 rounded p-2 text-white text-lg"
+              className="bg-gray-900 w-1/4 rounded p-2 text-white text-lg hover:bg-gray-700"
             >
               Send
             </button>
