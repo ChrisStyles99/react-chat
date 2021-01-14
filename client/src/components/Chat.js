@@ -105,6 +105,7 @@ export const Chat = (props) => {
                   name={chatMessage.user.name}
                   message={chatMessage.content}
                   currentUser={userProfile.name}
+                  createdAt={chatMessage.createdAt}
                   key={chatMessage.id}
                 />
               );
