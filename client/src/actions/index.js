@@ -154,3 +154,23 @@ export const getProfiles = (query) => {
     });
   }
 }
+
+export const createChat = (id) => {
+  return async(dispatch) => {
+    const res = await axios.post(`${baseURL}/chats/create-chat/${id}`);
+
+    console.log(res.data);
+
+    if(res.data.error === true) {
+      return dispatch({
+        type: 'CREATE_CHAT_ERROR',
+        payload: res.data.msg
+      })
+    }
+
+    dispatch({
+      type: 'CREATE_CHAT',
+      payload: res.data.chat
+    });
+  }
+}

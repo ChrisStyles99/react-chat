@@ -98,6 +98,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         profiles: action.payload
       }
+    case 'CREATE_CHAT_ERROR':
+      return {
+        ...state,
+        createChatError: action.payload
+      }
+    case 'CREATE_CHAT':
+      return {
+        ...state,
+        user: {...state.user, chats: [...state.user.chats, action.payload]}
+      }
     default: 
       return state
   }
