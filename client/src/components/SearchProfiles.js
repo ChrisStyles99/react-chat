@@ -20,10 +20,10 @@ export const SearchProfiles = (props) => {
 
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <h1>Search Profiles</h1>
+      <h1 className="text-4xl text-white my-2">Search Profiles</h1>
       {profiles.length > 0 ? (
         profiles.map(profile => (
-          <ProfileCard key={profile.id}/>
+          <ProfileCard profile={profile} user={user} key={profile.id}/>
         ))
       ) : (
         <p>Sorry, no profiles found</p>

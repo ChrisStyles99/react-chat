@@ -21,7 +21,7 @@ export const Home = (props) => {
     
     if(username === '') return
 
-    props.history.push(`/search-profiles?quey=${username}`);
+    props.history.push(`/search-profiles?query=${username}`);
   }
 
   return (
