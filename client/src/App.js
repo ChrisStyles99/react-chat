@@ -8,6 +8,7 @@ import { Register } from './components/Register';
 import { Login } from './components/Login';
 import {useSelector} from 'react-redux';
 import { Profile } from './components/Profile';
+import { SearchProfiles } from './components/SearchProfiles';
 
 const URL = 'http://localhost:3001';
 const socket = io.connect(URL);
@@ -56,6 +57,7 @@ function App() {
           <ProtectedRoute exact path="/" component={(props) => <Home {...props} socket={socket} />} />
           <ProtectedRoute exact path="/chat/:id" component={(props) => <Chat {...props} socket={socket} />} />
           <ProtectedRoute exact path="/profile" component={Profile} />
+          <ProtectedRoute exact path="/search-profiles" component={SearchProfiles} />
           <GuestRoute exact path="/register" component={Register} />
           <GuestRoute exact path="/login" component={Login} />
         </Switch>

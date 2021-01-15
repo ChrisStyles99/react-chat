@@ -86,4 +86,22 @@ userController.logout = async(req, res) => {
   res.status(200).json({error: false, msg: "You have successfully logged out"});
 };
 
+userController.getProfiles = async(req, res) => {
+  try {
+    console.log(req.query);
+    const {query} = req.query;
+    const profiles = await User.findAll({
+      where: {
+        username: {
+          [Op.like]: `%${query}%`
+        }
+      },
+      attributes: ['id', 'name', 'username', 'email']
+    });
+    res.json({error: false, profiles});
+  } catch (error) {
+    res.json({error: true, msg: 'Could not find profiles'});
+  }
+}
+
 module.exports = userController;

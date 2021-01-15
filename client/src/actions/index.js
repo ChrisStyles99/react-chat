@@ -136,3 +136,21 @@ export const changeChatName = (id, name) => {
     });
   }
 }
+
+export const getProfiles = (query) => {
+  return async(dispatch) => {
+    const res = await axios.get(`${baseURL}/users/profiles?query=${query}`);
+
+    if(res.data.error === true) {
+      return dispatch({
+        type: 'GET_PROFILES_ERROR',
+        payload: res.data.msg
+      });
+    }
+
+    dispatch({
+      type: 'GET_PROFILES',
+      payload: res.data.profiles
+    });
+  }
+}

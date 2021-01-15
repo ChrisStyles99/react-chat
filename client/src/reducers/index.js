@@ -3,13 +3,15 @@ const initialState = {
   user: {
     chats: {}
   },
+  profiles: [],
   loginError: null,
   registerError: null,
   chatInfo: {},
   chatMessages: [],
   newMessageError: null,
   getChatInfoError: null,
-  changeNameError: null
+  changeNameError: null,
+  getProfilesError: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -85,6 +87,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         chatInfo: {...state.chatInfo, name: action.payload}
+      }
+    case 'GET_PROFILES_ERROR':
+      return {
+        ...state,
+        getProfilesError: action.payload
+      }
+    case 'GET_PROFILES':
+      return {
+        ...state,
+        profiles: action.payload
       }
     default: 
       return state
