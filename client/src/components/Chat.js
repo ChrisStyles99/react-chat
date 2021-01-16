@@ -78,14 +78,14 @@ export const Chat = (props) => {
   };
 
   return (
-    <div className="chat container flex mx-auto">
+    <div className="chat md:container flex mx-auto">
       {popup && (
         <div>
           <NameModal setTrigger={setPopup} id={id} />
           <div className="overlay bg-black bg-opacity-10 absolute w-full h-full inset-0"></div>
         </div>
       )}
-      <div className="chat-container m-auto h-screen w-2/4 my-5">
+      <div className="chat-container m-auto h-screen w-full md:w-2/4 my-5">
         <div className="m-auto">
           <h1 className="text-4xl text-white text-center">{chatInfo.name}</h1>
           <p className="text-xl text-red-400">{changeNameError}</p>
@@ -97,7 +97,7 @@ export const Chat = (props) => {
           </button>
         </div>
         <p>{newMessageError}</p>
-        <div className="chat-messages h-2/4 bg-gray-200 overflow-y-scroll">
+        <div className="chat-messages h-3/4 md:h-2/4 bg-gray-200 overflow-y-scroll">
           {chatMessages.length > 0 ? (
             chatMessages.map((chatMessage) => {
               return (

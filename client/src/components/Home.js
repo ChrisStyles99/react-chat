@@ -26,7 +26,7 @@ export const Home = (props) => {
 
   return (
     <div className="container mx-auto h-screen">
-      <div className="grid grid-cols-4 gap-3 h-1/2 mt-2">
+      <div className="md:grid md:grid-cols-4 md:gap-3 md:h-1/2 mt-2">
         <div className="col-span-2 bg-white rounded-3xl p-3">
           <h1 className="text-5xl">Welcome, {userProfile.name}!</h1>
           <h2 className="text-xl my-2">Your chats</h2>
@@ -46,7 +46,7 @@ export const Home = (props) => {
             <p>Sorry, you don't have any chats</p>
           )}
         </div>
-        <form className="col-span-1 h-1/2 bg-white p-2 rounded-3xl flex flex-col p-3" onSubmit={handleSubmit}>
+        <form className="mt-2 md:col-span-1 h-1/2 bg-white p-2 rounded-3xl flex flex-col p-3" onSubmit={handleSubmit}>
           <h1 className="text-center text-2xl">Search users</h1>
           <input type="text" placeholder="Search for users to chat" value={username} onChange={e => setUsername(e.target.value)} className="border-2 border-gray-500 p-2 rounded my-2"/>
           <button type="submit" className="bg-blue-500 my-2 p-2 text-xl rounded hover:bg-blue-600">Find!</button>

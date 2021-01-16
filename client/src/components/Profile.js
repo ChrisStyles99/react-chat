@@ -16,7 +16,7 @@ export const Profile = () => {
 
   return (
     <div className="h-screen flex justify-center">
-      <div className="profile bg-white w-1/3 h-1/3 mt-2 text-center rounded shadow">
+      <div className="profile bg-white md:w-1/3 h-1/3 mt-2 text-center rounded shadow">
         <h1 className="text-4xl">Profile</h1>
         <p className="text-2xl">Name: {user.name}</p>
         <p className="text-2xl">Username: {user.username}</p>

@@ -29,8 +29,8 @@ export const Login = (props) => {
   }
 
   return (
-    <div className="h-screen container m-auto flex justify-center items-center">
-      <form className="flex flex-col bg-gray-200 p-10 shadow-lg rounded-3xl w-1/3" onSubmit={handleSubmit}>
+    <div className="h-screen md:container m-auto flex justify-center items-center">
+      <form className="flex flex-col bg-gray-200 p-3 md:p-10 shadow-lg rounded-3xl w-5/6 md:w-1/3" onSubmit={handleSubmit}>
         <p className="text-center text-red-400">{error}</p>
         <h1 className="text-5xl mb-2 text-center">Login</h1>
         <label className="text-lg my-2" >Email:</label>
